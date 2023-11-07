@@ -1,0 +1,45 @@
+graph TD
+
+Start --> CheckArrival
+CheckArrival --> |Treadmill Arrival| CheckTreadmill
+CheckTreadmill --> |Treadmill Available| TreadmillBusy
+CheckTreadmill --> |Treadmill Not Available| TreadmillQueue
+TreadmillQueue --> |Queue Empty| TreadmillBusy
+TreadmillQueue --> |Queue Not Empty| StayInQueue
+StayInQueue --> |Treadmill Available| TreadmillBusy
+StayInQueue --> |Treadmill Not Available| ContinueWaiting
+TreadmillBusy --> |Treadmill Departure| CheckDeparture
+CheckDeparture --> |Treadmill Empty| NoDeparture
+CheckDeparture --> |Treadmill Not Empty| ContinueWorkout
+
+Start --> CheckRack
+CheckRack --> |Rack Arrival| CheckRackState
+CheckRackState --> |Rack Available| RackBusy
+CheckRackState --> |Rack Not Available| RackQueue
+RackQueue --> |Queue Empty| RackBusy
+RackQueue --> |Queue Not Empty| StayInQueueRack
+StayInQueueRack --> |Rack Available| RackBusy
+StayInQueueRack --> |Rack Not Available| ContinueWaitingRack
+RackBusy --> |Rack Departure| CheckRackDeparture
+CheckRackDeparture --> |Rack Empty| NoDepartureRack
+CheckRackDeparture --> |Rack Not Empty| ContinueWorkoutRack
+
+Start --> CheckBench
+CheckBench --> |Bench Arrival| CheckBenchState
+CheckBenchState --> |Bench Available| BenchBusy
+CheckBenchState --> |Bench Not Available| BenchQueue
+BenchQueue --> |Queue Empty| BenchBusy
+BenchQueue --> |Queue Not Empty| StayInQueueBench
+StayInQueueBench --> |Bench Available| BenchBusy
+StayInQueueBench --> |Bench Not Available| ContinueWaitingBench
+BenchBusy --> |Bench Departure| CheckBenchDeparture
+CheckBenchDeparture --> |Bench Empty| NoDepartureBench
+CheckBenchDeparture --> |Bench Not Empty| ContinueWorkoutBench
+
+NoDeparture --> CheckArrival
+NoDepartureRack --> CheckRack
+NoDepartureBench --> CheckBench
+
+ContinueWorkout --> CheckDeparture
+ContinueWorkoutRack --> CheckRackDeparture
+ContinueWorkoutBench --> CheckBenchDeparture
